@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { getAll } from "../services/api";
 
 function ItemCard() {
   const [items, setItems] = useState([]);
@@ -6,15 +7,9 @@ function ItemCard() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchItems = async () => {
+    const getItems = async () => {
       try {
-        const response = await fetch(
-          "https://app-hanxxmv2aa-uc.a.run.app/api/read/"
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
+        const data = await getAll();
         setItems(data);
       } catch (err) {
         setError(err.message);
@@ -23,7 +18,7 @@ function ItemCard() {
       }
     };
 
-    fetchItems();
+    getItems();
   }, []);
 
   if (loading)
