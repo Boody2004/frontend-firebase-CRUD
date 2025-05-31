@@ -2,9 +2,9 @@ function ItemCard({ item }) {
   return (
     <div className="item-card">
       <div className="item-info">
-        <h3>{item.name}</h3>
-        <p>{item.description}</p>
-        <p>{item.price}</p>
+        <h1 className="text-3xl">{item.name}</h1>
+        <p className="text-2xl">{item.description}</p>
+        <p className="text-2xl">{item.price}</p>
       </div>
     </div>
   );
