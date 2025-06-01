@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAll } from "../services/api";
+import { getAllItems } from "../services/api";
 
 function ItemCard() {
   const [items, setItems] = useState([]);
@@ -9,7 +9,7 @@ function ItemCard() {
   useEffect(() => {
     const getItems = async () => {
       try {
-        const data = await getAll();
+        const data = await getAllItems();
         setItems(data);
       } catch (err) {
         setError(err.message);
