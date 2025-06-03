@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
-import { getAllItems } from "../services/api";
+import { getAllItems, deleteItem } from "../services/api";
 
 function ItemCard() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
+  // get
   useEffect(() => {
     const getItems = async () => {
       try {
@@ -21,6 +23,21 @@ function ItemCard() {
     getItems();
   }, []);
 
+  // delete
+  const handleDelete = async (id) => {
+    try {
+      setLoading(true);
+      await deleteItem(id);
+      setItems(items.filter((item) => item.id !== id));
+      setSuccessMessage("Item deleted successfully!");
+      setTimeout(() => setSuccessMessage(null), 3000);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (loading)
     return (
       <h1 className="text-4xl font-bold text-gray-100">Loading products...</h1>
@@ -31,6 +48,12 @@ function ItemCard() {
   return (
     <>
       <h1 className="text-4xl font-bold text-gray-100 mb-8">All Items</h1>
+
+      {successMessage && (
+        <div className="mb-4 p-4 bg-green-600 text-white rounded-lg">
+          {successMessage}
+        </div>
+      )}
 
       <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
         <table className="w-full">
@@ -108,7 +131,8 @@ function ItemCard() {
                 </td>
                 <td className="py-4 px-6 text-blue-400 font-medium">
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={() => handleDelete(item.id)}
                     className="px-4 py-2 rounded font-medium text-white bg-red-600 hover:bg-red-700"
                   >
                     Delete
