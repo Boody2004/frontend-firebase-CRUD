@@ -29,3 +29,17 @@ export const postNewItem = async (itemData) => {
     throw error;
   }
 };
+
+// DELETE item
+export const deleteItem = async (id) => {
+  const response = await fetch(`${BASE_URL}/api/delete/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Failed to delete item");
+  }
+
+  return true;
+};

@@ -48,6 +48,12 @@ function ItemCard() {
               <th className="py-4 px-6 text-left text-gray-300 font-semibold uppercase tracking-wider">
                 Price
               </th>
+              <th className="py-4 px-6 text-left text-gray-300 font-semibold uppercase tracking-wider">
+                Edit
+              </th>
+              <th className="py-4 px-6 text-left text-gray-300 font-semibold uppercase tracking-wider">
+                Delete
+              </th>
             </tr>
           </thead>
 
@@ -60,10 +66,53 @@ function ItemCard() {
                 <td className="py-4 px-6 text-blue-400 font-medium">
                   {item.id}
                 </td>
-                <td className="py-4 px-6 text-gray-300">{item.name}</td>
-                <td className="py-4 px-6 text-gray-300">{item.description}</td>
+                <td className="py-4 px-6 text-gray-300">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder={item.name}
+                    className="bg-gray-700 text-gray-100 rounded p-2"
+                    step="0.01"
+                  />
+                </td>
+                <td className="py-4 px-6 text-gray-300">
+                  <input
+                    type="text"
+                    name="description"
+                    placeholder={item.description}
+                    className="bg-gray-700 text-gray-100 rounded p-2"
+                    step="0.01"
+                  />
+                </td>
                 <td className="py-4 px-6 text-blue-400 font-medium">
-                  ${item.price}
+                  <div className="relative">
+                    <input
+                      type="number"
+                      name="price"
+                      placeholder={item.price}
+                      className="bg-gray-700 text-gray-100 rounded p-2 pl-5"
+                      step="0.01"
+                    />
+                    <span className="absolute left-2 top-1/2 transform -translate-y-1/2">
+                      $
+                    </span>
+                  </div>
+                </td>
+                <td className="py-4 px-6 text-blue-400 font-medium">
+                  <button
+                    type="submit"
+                    className="px-4 py-2 rounded font-medium text-white bg-blue-600 hover:bg-blue-700"
+                  >
+                    Edit
+                  </button>
+                </td>
+                <td className="py-4 px-6 text-blue-400 font-medium">
+                  <button
+                    type="submit"
+                    className="px-4 py-2 rounded font-medium text-white bg-red-600 hover:bg-red-700"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
