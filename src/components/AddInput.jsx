@@ -2,23 +2,23 @@ import { useState, useEffect } from "react";
 import { postNewItem } from "../services/api";
 
 const AddItemForm = ({ onItemAdded }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null); // Changed from error/success to single "done" state
   const [formData, setFormData] = useState({
     id: "",
     name: "",
     description: "",
     price: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [done, setDone] = useState(null); // Changed from error/success to single "done" state
 
   useEffect(() => {
-    if (done) {
+    if (isSubmitting) {
       const timer = setTimeout(() => {
         window.location.reload();
-      }, 1500);
+      }, 500);
       return () => clearTimeout(timer);
     }
-  }, [done]);
+  }, [isSubmitting]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,7 +28,7 @@ const AddItemForm = ({ onItemAdded }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setDone(null);
+    setError(null);
 
     try {
       const newItem = {
@@ -38,7 +38,7 @@ const AddItemForm = ({ onItemAdded }) => {
 
       const createdItem = await postNewItem(newItem);
       onItemAdded(createdItem);
-      setDone("Item added successfully!");
+      setIsSubmitting("Item added successfully!");
       setFormData({
         id: "",
         name: "",
@@ -46,7 +46,7 @@ const AddItemForm = ({ onItemAdded }) => {
         price: "",
       });
     } catch (err) {
-      setDone(err.message);
+      setError(err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -56,13 +56,17 @@ const AddItemForm = ({ onItemAdded }) => {
     <>
       <h1 className="text-4xl font-bold text-gray-100 mb-8">Add New Item</h1>
 
-      <div className="bg-gray-800 rounded-lg p-6 shadow-lg mb-8">
-        {done && (
-          <div className="mb-4 p-3 bg-green-600 text-green-100 rounded">
-            Added!
-          </div>
-        )}
+      {/* {error && (
+        <div className="mb-4 p-4 bg-red-600 text-white rounded-lg">{error}</div>
+      )} */}
 
+      {isSubmitting && (
+        <div className="mb-4 p-4 bg-green-600 text-white rounded-lg">
+          {isSubmitting} Item added successfully!
+        </div>
+      )}
+
+      <div className="bg-gray-800 rounded-lg p-6 shadow-lg mb-8">
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="number"
@@ -106,14 +110,14 @@ const AddItemForm = ({ onItemAdded }) => {
 
           <button
             type="submit"
-            disabled={isSubmitting || done}
+            disabled={isSubmitting || error}
             className={`px-4 py-2 rounded font-medium ${
-              isSubmitting || done
+              isSubmitting || error
                 ? "bg-gray-600 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
-            {done ? "Done!" : isSubmitting ? "Adding..." : "Add Item"}
+            {error ? "Done!" : isSubmitting ? "Adding..." : "Add Item"}
           </button>
         </form>
       </div>

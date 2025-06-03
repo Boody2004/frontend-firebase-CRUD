@@ -93,7 +93,7 @@ function ItemCard() {
                   <input
                     type="text"
                     name="name"
-                    placeholder={item.name}
+                    defaultValue={item.name}
                     className="bg-gray-700 text-gray-100 rounded p-2"
                     step="0.01"
                   />
@@ -102,7 +102,7 @@ function ItemCard() {
                   <input
                     type="text"
                     name="description"
-                    placeholder={item.description}
+                    defaultValue={item.description}
                     className="bg-gray-700 text-gray-100 rounded p-2"
                     step="0.01"
                   />
@@ -112,7 +112,7 @@ function ItemCard() {
                     <input
                       type="number"
                       name="price"
-                      placeholder={item.price}
+                      defaultValue={item.price}
                       className="bg-gray-700 text-gray-100 rounded p-2 pl-5"
                       step="0.01"
                     />
@@ -123,7 +123,7 @@ function ItemCard() {
                 </td>
                 <td className="py-4 px-6 text-blue-400 font-medium">
                   <button
-                    type="submit"
+                    type="button"
                     className="px-4 py-2 rounded font-medium text-white bg-blue-600 hover:bg-blue-700"
                   >
                     Edit
